@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杨曦 · 摄影作品集</title>
+    <style>
+        /* 基础重置与全局设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fafafa;
+            color: #1a1a1a;
+            font-family: 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 所有图片基础样式：确保完整展示，不切割 */
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* 封面板块 */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 0.9rem;
+            color: #777;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+        }
+
+        .contact-info {
+            font-size: 0.9rem;
+            color: #333;
+            letter-spacing: 0.05em;
+            border-top: 1px solid #ddd;
+            padding-top: 25px;
+            display: inline-block;
+        }
+
+        /* 板块标题 */
+        .section-title {
+            text-align: center;
+            margin: 100px 0 60px;
+        }
+
+        .section-title h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 10px;
+        }
+
+        .section-title span {
+            font-size: 0.75rem;
+            color: #999;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        /* 关于我板块 */
+        .about-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .about-text {
+            flex: 1 1 500px;
+        }
+
+        .about-photo {
+            flex: 1 1 300px;
+            max-width: 350px;
+            margin: 0 auto;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .about-text h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: 0.1em;
+        }
+
+        .about-text p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .experience-list {
+            list-style: none;
+        }
+
+        .experience-list li {
+            font-size: 0.95rem;
+            color: #333;
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .experience-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #1a1a1a;
+        }
+
+        /* 极简文字标注样式 */
+        .caption {
+            font-size: 0.75rem;
+            color: #888;
+            letter-spacing: 0.15em;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 300;
+        }
+
+        /* ----------------------------------
+           漫展场照排版（双列错落，底部带文字）
+        ---------------------------------- */
+        .convention-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px 40px;
+            align-items: start; 
+            margin-bottom: 80px;
+        }
+
+        .gallery-item {
+            position: relative;
+            background-color: #f7f7f7;
+            border-radius: 4px;
+            padding: 15px 15px 20px 15px;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            margin: 0 auto;
+            border-radius: 2px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+        }
+
+        .gallery-item::after {
+            content: attr(data-index);
+            position: absolute;
+            top: -25px;
+            left: 0;
+            color: #bbb;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        /* ----------------------------------
+           日常约拍排版（高度均匀的 2x2 网格，底部带文字）
+        ---------------------------------- */
+        .daily-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 120px;
+        }
+
+        .daily-item {
+            position: relative;
+            background-color: #f7f7f7;
+            border-radius: 4px;
+            aspect-ratio: 4 / 3;
+            display: flex;
+            flex-direction: column;
+            padding: 15px 15px 20px 15px;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+
+        .daily-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .daily-img-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .daily-img-wrapper img {
+            border-radius: 2px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .daily-item .caption {
+            margin-top: 0; 
+            flex-shrink: 0;
+        }
+
+        .daily-item::after {
+            content: attr(data-index);
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: #aaa;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            z-index: 2;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 0.1em;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .convention-grid, .daily-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-section { gap: 30px; }
+            .section-title { margin: 60px 0 40px; }
+            .daily-item { aspect-ratio: auto; min-height: 350px; }
+        }
+
+        /* ----------------------------------
+           打印 / PDF 导出优化样式
+        ---------------------------------- */
+        @media print {
+            body { 
+                background-color: #fff; 
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .container { max-width: 100%; padding: 0 15px; }
+            .hero { height: auto; padding: 40px 0 60px; }
+            .gallery-item, .daily-item { 
+                box-shadow: none; 
+                background-color: #fff; 
+                border: 1px solid #eee; 
+                page-break-inside: avoid;
+            }
+            img { box-shadow: none; }
+            .about-photo { border: 1px solid #eee; }
+            .section-title { page-break-after: avoid; }
+            footer { page-break-before: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 封面 -->
+    <header class="hero">
+        <h1>杨曦</h1>
+        <p>Photography Portfolio</p>
+        <div class="contact-info">
+            WeChat: y11842628 &nbsp;|&nbsp; Email: 2801118079@qq.com
+        </div>
+    </header>
+
+    <!-- 个人介绍 -->
+    <section class="container">
+        <div class="section-title">
+            <span>About Me</span>
+            <h2>关于我</h2>
+        </div>
+        <div class="about-section">
+            <div class="about-text">
+                <h3>个人简介</h3>
+                <p>
+                    24岁，2024年毕业于广东财经大学编辑出版专业。热爱摄影，致力于在摄影行业深耕。从新闻纪实到漫展场照，再到日常氛围感约拍，我始终追求画面中克制的美感与真实的故事性。
+                </p>
+                <ul class="experience-list">
+                    <li>3年大学新闻社摄影师经验</li>
+                    <li>漫展场照拍摄 / 角色还原</li>
+                    <li>日常约拍 / 情绪人像</li>
+                    <li>技能： Photoshop / Lightroom </li>
+                    <li>常驻地：广州 / 深圳 / 东莞</li>
+                    <li>性格初见腼腆，熟悉后能迅速与团队及客户建立默契</li>
+                </ul>
+            </div>
+            <div class="about-photo">
+                <img src="image_13.jpg" alt="杨曦个人照片">
+            </div>
+        </div>
+    </section>
+
+    <!-- 漫展场照 -->
+    <section class="container">
+        <div class="section-title">
+            <span>I. Convention Photography</span>
+            <h2>漫展场照</h2>
+        </div>
+        <div class="convention-grid">
+            <!-- 2024 萤火虫漫展 -->
+            <div class="gallery-item" data-index="01">
+                <img src="image_2.jpg" alt="漫展场照 - 精灵">
+                <div class="caption">2024 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+            <div class="gallery-item" data-index="02">
+                <img src="image_1.jpg" alt="漫展场照 - 雷姆">
+                <div class="caption">2024 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+            <div class="gallery-item" data-index="03">
+                <img src="image_3.jpg" alt="漫展场照 - 黑伞哥特">
+                <div class="caption">2024 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+            <div class="gallery-item" data-index="04">
+                <img src="image_6.jpg" alt="漫展场照 - 皮衣冷酷">
+                <div class="caption">2024 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+
+            <!-- 2025 萤火虫漫展 -->
+            <div class="gallery-item" data-index="05">
+                <img src="image_4.jpg" alt="漫展场照 - 绿发活力">
+                <div class="caption">2025 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+            <div class="gallery-item" data-index="06">
+                <img src="image_8.jpg" alt="漫展场照 - 红发侧颜">
+                <div class="caption">2025 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+            <div class="gallery-item" data-index="07">
+                <img src="image_5.jpg" alt="漫展场照 - 恶魔女仆">
+                <div class="caption">2025 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+            <div class="gallery-item" data-index="08">
+                <img src="image_7.jpg" alt="漫展场照 - 紫发温柔">
+                <div class="caption">2025 萤火虫漫展 | 广州保利世贸博览馆</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 日常约拍 -->
+    <section class="container">
+        <div class="section-title">
+            <span>II. Daily Portraits</span>
+            <h2>日常约拍</h2>
+        </div>
+        <div class="daily-grid">
+            <div class="daily-item" data-index="09">
+                <div class="daily-img-wrapper">
+                    <img src="image_9.jpg" alt="日常约拍 - 秋日银杏">
+                </div>
+                <div class="caption">深圳公园</div>
+            </div>
+            <div class="daily-item" data-index="10">
+                <div class="daily-img-wrapper">
+                    <img src="image_10.jpg" alt="日常约拍 - 旗袍庭院背影">
+                </div>
+                <div class="caption">广州文化馆</div>
+            </div>
+            <div class="daily-item" data-index="11">
+                <div class="daily-img-wrapper">
+                    <img src="image_11.jpg" alt="日常约拍 - 树下光影">
+                </div>
+                <div class="caption">大学校园</div>
+            </div>
+            <div class="daily-item" data-index="12">
+                <div class="daily-img-wrapper">
+                    <img src="image_12.jpg" alt="日常约拍 - 森林秋千">
+                </div>
+                <div class="caption">古树公园</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2026 杨曦 Photography. All Rights Reserved.</p>
+        <p style="margin-top: 12px; font-size: 0.9rem; color: #555;">WeChat: y11842628 &nbsp;|&nbsp; Email: 2801118079@qq.com</p>
+    </footer>
+
+</body>
+</html>
